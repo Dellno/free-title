@@ -15,5 +15,5 @@ def main():
     db_session.global_init("db/blogs.db")
     app.run()
 
-    if __name__ == '__main__':
-        main()
+if __name__ == '__main__':
+    main()
