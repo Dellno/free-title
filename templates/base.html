@@ -12,10 +12,26 @@
 <body>
 <header>
     <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" href="/"><h4><p class="box" style="color:green;">главная</p></h4></a>
-        <a class="navbar-brand" href="#"><h4><p class="box">мои проекты</p></h4></a>
-        <a class="navbar-brand" href="#"><h4><p class="box">профиль</p></h4></a>
-        <a class="navbar-brand" href="/register"><h4><p class="box">регистрация и вход</p></h4></a>
+        <a class="navbar-brand" href="/">
+            <h4><p class="box" style="color:green;">главная</p></h4>
+        </a>
+        <a class="navbar-brand" href="#">
+            <h4><p class="box">мои проекты</p></h4>
+        </a>
+        <a class="navbar-brand" href="#">
+            <h4><p class="box">профиль</p></h4>
+        </a>
+        <a class="navbar-brand" href="/register">
+            <h4><p class="box">регистрация и вход</p></h4>
+        </a>
+        {% if current_user.is_authenticated %}
+        <a class="navbar-brand" href="/logout">{{ current_user.name }}</a>
+        {% else %}
+        <p>
+            <a class="btn btn-primary " href="/register">Зарегистрироваться</a>
+            <a class="btn btn-success" href="/login">Войти</a>
+        </p>
+        {% endif %}
     </nav>
 </header>
 <main role="main" class="container">
