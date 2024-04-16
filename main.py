@@ -59,14 +59,6 @@ def login():
     return render_template('sing_in.html', title='Авторизация', form=form)
 
 
-@app.route("/session_test")
-def session_test():
-    visits_count = session.get('visits_count', 0)
-    session['visits_count'] = visits_count + 1
-    return make_response(
-        f"Вы пришли на эту страницу {visits_count + 1} раз")
-
-
 @login_manager.user_loader
 def load_user(user_id):
     db_sess = db_session.create_session()
@@ -78,6 +70,7 @@ def load_user(user_id):
 def logout():
     logout_user()
     return redirect("/")
+
 
 def main():
     db_session.global_init("db/blogs.db")
