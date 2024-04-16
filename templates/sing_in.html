@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Регистрация</h1>
+<h1>Вход</h1>
 <form action="" method="post">
     {{ form.hidden_tag() }}
     <p>
@@ -25,4 +25,5 @@
     <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
     {{message}}
 </form>
+<a href="/register"><p><input class="btn btn-primary" id="submit" name="submit" type="submit" value="Зарегистрироваться"></p></a>
 {% endblock %}

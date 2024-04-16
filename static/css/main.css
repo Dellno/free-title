@@ -1,6 +1,26 @@
 p.box {
-    width: 200px;
+    width: 300px;
     background-color: #4B0082;
     padding: 10px;
     text-decoration-color: #FFFF00;
 }
+div.bloc{
+    width: 1100px;
+    height: 100px;
+    background-color: #4B0082;
+    padding: 10px;
+}
+div.bloc1{
+    width: 500px;
+    height: 80px;
+    background-color: green;
+    padding: 10px;
+}
+.submission-header-viewer {
+    display: -webkit-box;
+    display: flex;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    align-items: center;
+    padding: 14px 16px 10px;
+    background: #ffffff;
