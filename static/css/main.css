@@ -5,16 +5,26 @@ p.box {
     text-decoration-color: #FFFF00;
 }
 div.bloc{
-    width: 1100px;
-    height: 100px;
+    width: 800px;
+    height: 70px;
     background-color: #4B0082;
     padding: 10px;
+    border-radius: 10px 0px 0px 10px;
 }
 div.bloc1{
-    width: 500px;
-    height: 80px;
+    display: -webkit-box;
+    width: 300px;
+    height: 70px;
     background-color: green;
     padding: 10px;
+}
+div.bloc2{
+    display: -webkit-box;
+    width: 150px;
+    height: 70px;
+    background-color: green;
+    padding: 10px;
+     border-radius: 0px 10px 10px 0px;
 }
 .submission-header-viewer {
     display: -webkit-box;
@@ -24,3 +34,4 @@ div.bloc1{
     align-items: center;
     padding: 14px 16px 10px;
     background: #ffffff;
+}
