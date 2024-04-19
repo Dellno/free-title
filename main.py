@@ -4,7 +4,11 @@ from data.user import User
 from forms.register_form import RegisterForm
 from forms.login import LoginForm
 import datetime
-from flask_login import LoginManager, login_user, logout_user, login_required
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+from forms.Game_form import GameForm
+from data.game import Game
+
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -72,8 +76,25 @@ def logout():
     return redirect("/")
 
 
+@app.route('/add_game',  methods=['GET', 'POST'])
+@login_required
+def add_news():
+    form = GameForm()
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        game = Game()
+        game.title = form.title.data
+        game.content = form.content.data
+        current_user.game.append(game)
+        db_sess.merge(current_user)
+        db_sess.commit()
+        return redirect('/')
+    return render_template('add_game.html', title='Добавить игру',
+                           form=form)
+
+
 def main():
-    db_session.global_init("db/blogs.db")
+    db_session.global_init("db/game_and_user.db")
     app.run()
 
 

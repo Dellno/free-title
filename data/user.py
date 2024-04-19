@@ -14,7 +14,7 @@ class User(SqlAlchemyBase, UserMixin):
     name = sqlalchemy.Column(sqlalchemy.String, nullable=True, default=login)
     hashed_password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     icon_path = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    news = orm.relationship("Game", back_populates='user')
+    game = orm.relationship("Game", back_populates='user')
 
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)
