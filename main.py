@@ -17,11 +17,18 @@ app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+q = [[1, 1, 1, 111111], [], [], []]
 
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html', title='free-title', projects=[])
+    return render_template('index.html', title='free-title', projects=q)
+
+
+@app.route('/my_project')
+@login_required
+def my_project():
+    return render_template('my_project.html', title='free-title', projects=q)
 
 
 @app.route('/register', methods=['GET', 'POST'])
