@@ -17,18 +17,22 @@ app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-q = [[1, 1, 1, 111111], [], [], []]
 
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html', title='free-title', projects=q)
-
-
-@app.route('/my_project')
-@login_required
-def my_project():
-    return render_template('my_project.html', title='free-title', projects=q)
+    last_id = 1
+    popular_project = []
+    db_sess = db_session.create_session()
+    for i in range(20):
+        game = db_sess.query(Game).filter(last_id <= Game.id).first()
+        last_id += 1
+        if not game is None:
+            popular_project.append([
+                game.name, game.content, game.raiting
+            ])
+    print(popular_project)
+    return render_template('index.html', title='free-title', projects=popular_project)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -90,7 +94,7 @@ def add_news():
     if form.validate_on_submit():
         db_sess = db_session.create_session()
         game = Game()
-        game.title = form.title.data
+        game.name = form.title.data
         game.content = form.content.data
         current_user.game.append(game)
         db_sess.merge(current_user)
