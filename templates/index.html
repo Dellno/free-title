@@ -1,13 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
- <header class="submission-header-viewer submission-header-viewer_status_accepted">
-     <div class="bloc1">
-        <p>asgfhcjgfd</p>
+{% for project in projects %}
+<header class="submission-header-viewer submission-header-viewer_status_accepted">
+    <div class="bloc">
+        <h1>{{ project[0] }}</h1>
     </div>
     <div class="bloc1">
-        <p>asgfhcjgfd</p>
+        <h4>{{ project[1] }}</h4>
     </div>
- </header>
-
+    <div class="bloc2">
+        <h2>{{ project[2] }}</h2>
+        <h2>-></h2>
+        <p><img src="static/images/star-icon-transparent-background-4.png" alt="HTML5 Icon" style="width:50px;height:50px;"></p>
+    </div>
+    <div class="bloc3">
+        <p>{{ project[3] }}</p>
+    </div>
+</header>
+{% endfor %}
 {% endblock %}

@@ -8,8 +8,6 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from forms.Game_form import GameForm
 from data.game import Game
 
-
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(
@@ -18,14 +16,48 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 
+def get_game(count=20, start=1, author_id=None):
+    last_id = start
+    popular_project = []
+    db_sess = db_session.create_session()
+    for i in range(count):
+
+        if not author_id:
+            game = db_sess.query(Game).filter(last_id <= Game.id).first()
+            if game:
+                author = db_sess.query(User).filter(game.creator_id == User.id).first()
+        else:
+            game = db_sess.query(Game).filter(last_id <= Game.id).filter(Game.creator_id == author_id).first()
+            if game:
+                author = db_sess.query(User).filter(User.id == author_id).first()
+        last_id += 1
+        if not game is None:
+            if len(game.content) > 80 :
+                popular_project.append([
+                    game.name, author.name, game.raiting, game.content[:79] + "..."
+                ])
+            else:
+                popular_project.append([
+                    game.name, author.name, game.raiting, game.content
+                ])
+
+    return popular_project
+
+
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html', title='free-title')
+    return render_template('index.html', title='free-title', projects=get_game())
+
+
+@app.route('/my_project')
+@login_required
+def my_project():
+    return render_template('my_project.html', title='free-title', projects=get_game(author_id=current_user.id))
 
 
 @app.route('/register', methods=['GET', 'POST'])
-def reqister():
+def register():
     form = RegisterForm()
     if form.validate_on_submit():
         if form.password.data != form.password_again.data:
@@ -76,15 +108,16 @@ def logout():
     return redirect("/")
 
 
-@app.route('/add_game',  methods=['GET', 'POST'])
+@app.route('/add_game', methods=['GET', 'POST'])
 @login_required
-def add_news():
+def add_game():
     form = GameForm()
     if form.validate_on_submit():
         db_sess = db_session.create_session()
         game = Game()
-        game.title = form.title.data
+        game.name = form.title.data
         game.content = form.content.data
+        game.creator_id = current_user.id
         current_user.game.append(game)
         db_sess.merge(current_user)
         db_sess.commit()
