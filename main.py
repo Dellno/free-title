@@ -32,9 +32,14 @@ def get_game(count=20, start=1, author_id=None):
                 author = db_sess.query(User).filter(User.id == author_id).first()
         last_id += 1
         if not game is None:
-            popular_project.append([
-                game.name, author.name, game.raiting, game.content
-            ])
+            if len(game.content) > 80 :
+                popular_project.append([
+                    game.name, author.name, game.raiting, game.content[:79] + "..."
+                ])
+            else:
+                popular_project.append([
+                    game.name, author.name, game.raiting, game.content
+                ])
 
     return popular_project
 
