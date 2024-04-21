@@ -21,15 +21,21 @@ def get_game(count=20, start=1, author_id=None):
     popular_project = []
     db_sess = db_session.create_session()
     for i in range(count):
+
         if not author_id:
             game = db_sess.query(Game).filter(last_id <= Game.id).first()
+            if game:
+                author = db_sess.query(User).filter(game.creator_id == User.id).first()
         else:
             game = db_sess.query(Game).filter(last_id <= Game.id).filter(Game.creator_id == author_id).first()
+            if game:
+                author = db_sess.query(User).filter(User.id == author_id).first()
         last_id += 1
         if not game is None:
             popular_project.append([
-                game.name, game.content, game.raiting
+                game.name, author.name, game.raiting, game.content
             ])
+
     return popular_project
 
 
@@ -99,13 +105,14 @@ def logout():
 
 @app.route('/add_game', methods=['GET', 'POST'])
 @login_required
-def add_news():
+def add_game():
     form = GameForm()
     if form.validate_on_submit():
         db_sess = db_session.create_session()
         game = Game()
         game.name = form.title.data
         game.content = form.content.data
+        game.creator_id = current_user.id
         current_user.game.append(game)
         db_sess.merge(current_user)
         db_sess.commit()
