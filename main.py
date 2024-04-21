@@ -21,7 +21,7 @@ login_manager.init_app(app)
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html', title='free-title')
+    return render_template('index.html', title='free-title', projects=[])
 
 
 @app.route('/register', methods=['GET', 'POST'])
