@@ -56,6 +56,12 @@ def my_project():
     return render_template('my_project.html', title='free-title', projects=get_game(author_id=current_user.id))
 
 
+@app.route('/project')
+@login_required
+def project():
+    return render_template('project.html', title='free-title', project_name=1, name=1, description=1)
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
