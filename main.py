@@ -34,11 +34,11 @@ def get_game(count=20, start=1, author_id=None):
         if not game is None:
             if len(game.content) > 80 :
                 popular_project.append([
-                    game.name, author.name, game.raiting, game.content[:79] + "..."
+                    game.name, author.name, game.raiting, game.content[:79] + "...", game.id
                 ])
             else:
                 popular_project.append([
-                    game.name, author.name, game.raiting, game.content
+                    game.name, author.name, game.raiting, game.content, game.id
                 ])
 
     return popular_project
@@ -124,6 +124,22 @@ def add_game():
         return redirect('/')
     return render_template('add_game.html', title='Добавить игру',
                            form=form)
+
+
+@app.route("/project/<project_id>")
+def project_title(project_id=None):
+    if not project_id:
+        print(project_id)
+        return redirect("/")
+    db_sess = db_session.create_session()
+    game = db_sess.query(Game).filter(Game.id == project_id).first()
+    if game.name:
+        return render_template("project.html", title=f"проект {game.name}",
+                               project_name=game.name, name=db_sess.query(User).filter(Game.creator_id == User.id).first().name,
+                               description=game.content)
+
+
+
 
 
 def main():
