@@ -19,7 +19,7 @@
         <a class="navbar-brand" href="/my_project">
             <h4><p>мои проекты</p></h4>
         </a>
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href=/profile/{{ current_user.id }}>
             <h4><p>профиль</p></h4>
         </a>
         {% if current_user.is_authenticated %}

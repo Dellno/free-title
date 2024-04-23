@@ -34,11 +34,11 @@ def get_game(count=20, start=1, author_id=None):
         if not game is None:
             if len(game.content) > 80 :
                 popular_project.append([
-                    game.name, author.name, game.raiting, game.content[:79] + "...", game.id
+                    game.name, author.name, game.raiting, game.content[:79] + "...", game.id, game.creator_id
                 ])
             else:
                 popular_project.append([
-                    game.name, author.name, game.raiting, game.content, game.id
+                    game.name, author.name, game.raiting, game.content, game.id, game.creator_id
                 ])
 
     return popular_project
@@ -56,10 +56,10 @@ def my_project():
     return render_template('my_project.html', title='free-title', projects=get_game(author_id=current_user.id))
 
 
-@app.route('/project')
+@app.route('/profile/<autor_id>')
 @login_required
-def project():
-    return render_template('project.html', title='free-title', project_name=1, name=1, description=1)
+def profile(autor_id):
+    return render_template('profile.html', title='free-title', name=1, raiting=1, projects=get_game())
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -139,10 +139,10 @@ def project_title(project_id=None):
         return redirect("/")
     db_sess = db_session.create_session()
     game = db_sess.query(Game).filter(Game.id == project_id).first()
-    if game.name:
+    if game:
         return render_template("project.html", title=f"проект {game.name}",
                                project_name=game.name, name=db_sess.query(User).filter(Game.creator_id == User.id).first().name,
-                               description=game.content)
+                               description=game.content, img='')
 
 
 
