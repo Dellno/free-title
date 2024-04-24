@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, session, make_response
+from flask import Flask, render_template, redirect, session, make_response, request
 from data import db_session
 from data.user import User
 from forms.register_form import RegisterForm
@@ -32,7 +32,7 @@ def get_game(count=20, start=1, author_id=None):
                 author = db_sess.query(User).filter(User.id == author_id).first()
         last_id += 1
         if not game is None:
-            if len(game.content) > 80 :
+            if len(game.content) > 80:
                 popular_project.append([
                     game.name, author.name, game.raiting, game.content[:79] + "...", game.id, game.creator_id
                 ])
@@ -45,9 +45,15 @@ def get_game(count=20, start=1, author_id=None):
 
 
 @app.route('/')
-@app.route('/index')
+@app.route('/index', methods=['POST'])
 def index():
     return render_template('index.html', title='free-title', projects=get_game())
+
+
+@app.route('/submit', methods=['POST']) # эта функция вызывается при нажатии кнопки
+def submit_form():
+    print(1) # сюда пиши че хочешь
+    return redirect('/')
 
 
 @app.route('/my_project')
@@ -59,7 +65,8 @@ def my_project():
 @app.route('/profile/<autor_id>')
 @login_required
 def profile(autor_id):
-    return render_template('profile.html', title='free-title', name=get_game(author_id=autor_id)[0][1], raiting=0, projects=get_game(author_id=autor_id))
+    return render_template('profile.html', title='free-title', name=get_game(author_id=autor_id)[0][1], raiting=0,
+                           projects=get_game(author_id=autor_id), TG_token='telegram_token')
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -141,11 +148,9 @@ def project_title(project_id=None):
     game = db_sess.query(Game).filter(Game.id == project_id).first()
     if game:
         return render_template("project.html", title=f"проект {game.name}",
-                               project_name=game.name, name=db_sess.query(User).filter(Game.creator_id == User.id).first().name,
+                               project_name=game.name,
+                               name=db_sess.query(User).filter(Game.creator_id == User.id).first().name,
                                description=game.content, img='')
-
-
-
 
 
 def main():

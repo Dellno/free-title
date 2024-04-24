@@ -2,7 +2,8 @@
 
 {% block content %}
 <h2>{{ name }}</h2>
-<h4>{{ raiting }}</h4>
+<h4>общий рейтинг: {{ raiting }}</h4>
+<h4>{{ TG_token }}</h4>
 {% for project in projects %}
 <header class="submission-header-viewer submission-header-viewer_status_accepted">
     <div class="bloc">

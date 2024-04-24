@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 {% for project in projects %}
 <header class="submission-header-viewer submission-header-viewer_status_accepted">
     <div class="bloc">
@@ -10,9 +11,10 @@
         <h4><a href=profile/{{ project[5] }}>{{ project[1] }}</a></h4>
     </div>
     <div class="bloc2">
-        <h2>{{ project[2] }}</h2>
-        <h2>-></h2>
-        <p><img src="static/images/star-icon-transparent-background-4.png" alt="HTML5 Icon" style="width:50px;height:50px;"></p>
+        <form action="/submit" method="post">
+            <button class="image-button"></button>
+        </form>
+        <h1>{{ project[2] }}</h1>
     </div>
     <div class="bloc3">
         <p>{{ project[3] }}</p>
