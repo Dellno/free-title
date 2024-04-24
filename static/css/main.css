@@ -34,6 +34,15 @@ div.bloc3{
     padding: 10px;
      border-radius: 0px 0px 10px 10px;
 }
+div.bloc4{
+    display: -webkit-box;
+    width: 500px;
+    height: 500px;
+    background-color: #6BE6AC;
+    padding: 10px;
+    margin: 10px;
+     border-radius: 10px 10px 10px 10px;
+}
 .submission-header-viewer {
     display: -webkit-box;
     display: flex;
