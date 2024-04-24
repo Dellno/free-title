@@ -59,7 +59,7 @@ def my_project():
 @app.route('/profile/<autor_id>')
 @login_required
 def profile(autor_id):
-    return render_template('profile.html', title='free-title', name=1, raiting=1, projects=get_game())
+    return render_template('profile.html', title='free-title', name=get_game(author_id=autor_id)[0][1], raiting=0, projects=get_game(author_id=autor_id))
 
 
 @app.route('/register', methods=['GET', 'POST'])
