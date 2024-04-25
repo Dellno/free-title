@@ -15,5 +15,6 @@ class Game(SqlAlchemyBase):
                                    sqlalchemy.ForeignKey("users.id"))
     created_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                      default=datetime.datetime.now)
-    raiting= sqlalchemy.Column(sqlalchemy.Integer, default=0)
+    raiting = sqlalchemy.Column(sqlalchemy.Integer, default=0)
+    liked_user = sqlalchemy.Column(sqlalchemy.String, default="")
     user = orm.relationship('User')
