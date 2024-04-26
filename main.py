@@ -20,14 +20,13 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 
-
 @app.route('/')
 @app.route('/index', methods=['POST'])
 def index():
     return render_template('index.html', title='free-title', projects=get_game())
 
 
-@app.route('/submit/<game_id>', methods=['POST']) # эта функция вызывается при нажатии кнопки
+@app.route('/submit/<game_id>', methods=['POST'])  # эта функция вызывается при нажатии кнопки
 def submit_form(game_id=None):
     if not current_user.is_authenticated:
         return redirect("/login")
@@ -40,11 +39,9 @@ def submit_form(game_id=None):
         game.raiting -= 1
         us = f"_{current_user.id}"
         sp = game.liked_user.index(us)
-        game.liked_user = game.liked_user[:sp] + game.liked_user[sp+len(us):]
+        game.liked_user = game.liked_user[:sp] + game.liked_user[sp + len(us):]
     db_sess.commit()
     return redirect('/')
-
-
 
 
 @app.route('/my_project')
@@ -67,13 +64,10 @@ def profile(autor_id=None):
         return redirect("/login")
     if current_user.id == int(autor_id):
         return render_template('my_profile.html', title='free-title', name=user.name, raiting=raiting,
-                            projects=games, TG_token=f'api_token: {user.api_token}')
+                               projects=games, TG_token=f'api_token: {user.api_token}')
     else:
         return render_template('profile.html', title='free-title', name=user.name, raiting=raiting,
-                            projects=games)
-
-
-
+                               projects=games)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -143,7 +137,7 @@ def add_game():
         ico = form.icon.data
         filename = secure_filename(ico.filename)
         ico.save(os.path.join(
-        'db/game_icon', filename
+            'db/game_icon', filename
         ))
 
         game.icon_path = "/db/game_icon/" + filename
