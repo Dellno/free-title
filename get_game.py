@@ -21,6 +21,7 @@ def get_game(author_id=None):
                 popular_project.append([
                     game.name, author.name, game.raiting, game.content, game.id, game.creator_id
                 ])
+    popular_project = list(sorted(popular_project, key=lambda x: x[2])) 
     return popular_project
 
 
