@@ -9,4 +9,3 @@ class GameForm(FlaskForm):
     title = StringField('Название игры', validators=[DataRequired()])
     content = TextAreaField("Описание")
     submit = SubmitField('Создать')
-    icon = FileField("перетащите сюда изображение", validators=[FileRequired()])

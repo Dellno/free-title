@@ -134,14 +134,6 @@ def add_game():
         game.name = form.title.data
         game.content = form.content.data
         game.creator_id = current_user.id
-        ico = form.icon.data
-        filename = secure_filename(ico.filename)
-        ico.save(os.path.join(
-            'db/game_icon', filename
-        ))
-
-        game.icon_path = "/db/game_icon/" + filename
-        print(game.icon_path)
         current_user.game.append(game)
         db_sess.merge(current_user)
         db_sess.commit()
@@ -160,7 +152,7 @@ def project_title(project_id=None):
     if game:
         return render_template("project.html", title=f"проект {game.name}",
                                project_name=game.name,
-                               name=db_sess.query(User).filter(Game.creator_id == User.id).first().name,
+                               name=f"Aвтор: {db_sess.query(User).filter(Game.creator_id == User.id).first().name}",
                                description=game.content, img=game.icon_path)
 
 
