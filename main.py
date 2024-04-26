@@ -160,8 +160,8 @@ def project_title(project_id=None):
 def main():
     db_session.global_init("db/game_and_user.db")
     app.register_blueprint(freeTitle_api.blueprint)
-    #app.run()
-    serve(app, host="0.0.0.0", port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
 
 
 if __name__ == '__main__':
