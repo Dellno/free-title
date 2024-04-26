@@ -1,28 +1,32 @@
 # Добавим необходимый объект из модуля telegram.ext
 from telegram.ext import Application, CommandHandler, filters, MessageHandler
+import requests
+import json
 
 BOT_TOKEN = "7199575511:AAEdx0B8Bsw_r3XmfRjEnunuALwB7nbLClk"
+API_HOST = "http://127.0.0.1:5000/api/"
 
-
-# Напишем соответствующие функции.
-# Их сигнатура и поведение аналогичны обработчикам текстовых сообщений.
 async def start(update, context):
-    """Отправляет сообщение когда получена команда /start"""
     user = update.effective_user
     await update.message.reply_html(
-        rf"Привет {user.mention_html()}! Я бот сайта free-title. отправуь мне свой токен, и пропиши команду /update чтобы узнать о новых проектах любимых авторов",
+        rf"Привет {user.mention_html()}! Я бот сайта free-title. пропиши команду /update <токен> чтобы узнать о своих любимых проектах",
     )
 
 
 async def help_command(update, context):
     user = update.effective_user
     await update.message.reply_html(
-        rf"Привет {user.mention_html()}! Я бот сайта free-title. отправуь мне свой токен, и пропиши команду /update чтобы узнать о новых проектах любимых авторов",
+        rf"Привет {user.mention_html()}! Я бот сайта free-title. пропиши команду /update <токен> чтобы узнать о своих любимых проектах",
     )
 
 
 async def echo(update, context):
-    await update.message.reply_text(update.message.text)
+    print(update.message.text.split(" "))
+    if len(update.message.text.split(" ")) == 3 and update.message.text.split(" ")[0] == "/update":
+        response = requests.get(API_HOST + update.message.text.split(" ")[2])
+        a = json.loads(response.json())
+        for i in a:
+            await update.message.reply_text(f"игра: {i['name']} \n афтор: {i['author']} \n описаниее : \n {i['content']}")
 
 
 def run_bot():
@@ -35,5 +39,6 @@ def run_bot():
 
 
 if __name__ == '__main__':
+    print("start")
     run_bot()
     print("end")
