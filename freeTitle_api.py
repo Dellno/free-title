@@ -30,5 +30,4 @@ def get_licked(token=None):
             game.name, "content": game.content, "author":db_sess.query(User).filter(game.creator_id == User.id).first().name
         }        )
         gc += 1
-    print(resp)
     return jsonify(json.dumps(resp))
